@@ -43,9 +43,22 @@ function tweet() {
     var params = {screen_name:'CNN', count: 20};
     client.get('statuses/user_timeline.json', params, function(error, tweets, response) {
       if (!error) {
-        console.log(tweets);
-      }else if(error)
+          // console.log(tweets);
+       for (var i = 0; i < tweets.length; i++) {
+          console.log('')
+          console.log('-------------------------------------------------------------')
+          console.log(" Tweet Number: " + (i + 1))
+          console.log('')
+          console.log(' Created: ' + tweets[i].created_at)
+          console.log('')
+          console.log(' Tweet: ' + tweets[i].text)
+          console.log('')
+          console.log('-------------------------------------------------------------')
+          console.log('')
+      }
+      }else if(error) {
         console.log(error);
+      }
     });
 }
 
@@ -64,20 +77,37 @@ function spot() {
     if (err) {
       return console.log('Error occurred: ' + err);
     }
-  console.log(data.tracks.items[0]); 
+    
+    for(var i = 0; i < data.tracks.items.length; i++){
+        var spotData = data.tracks.items[i];
+        //artist
+        console.log("Artist: " + spotData.artists[0].name);
+        //song name
+        console.log("Song: " + spotData.name);
+        //spotify preview link
+        console.log("Preview: " + spotData.preview_url);
+        //album name
+        console.log("Album: " + spotData.album.name);
+        console.log("-----------------------");
+    }
   });
 }
 
 function mov() {
   var movieTitle = value;
-  request("http://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
+  request("https://www.omdbapi.com/?t=" + movieTitle + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 
   // If the request is successful (i.e. if the response status code is 200)
   if (!error && response.statusCode === 200) {
 
-    // Parse the body of the site and recover just the imdbRating
-    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-    console.log(JSON.parse(body));
+    // console.log(JSON.parse(body));
+    console.log("Title: " + JSON.parse(body).Title);
+    console.log("Release Year: " + JSON.parse(body).Year);
+    console.log("IMdB Rating: " + JSON.parse(body).imdbRating);
+    console.log("Country: " + JSON.parse(body).Country);
+    console.log("Language: " + JSON.parse(body).Language);
+    console.log("Plot: " + JSON.parse(body).Plot);
+    console.log("Actors: " + JSON.parse(body).Actors);
   }
 });
 
